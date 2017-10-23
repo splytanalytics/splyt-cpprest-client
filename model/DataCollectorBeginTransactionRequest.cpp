@@ -21,20 +21,12 @@ namespace model {
 
 DataCollectorBeginTransactionRequest::DataCollectorBeginTransactionRequest()
 {
-    m_Device_id = U("");
-    m_Device_idIsSet = false;
-    m_Event_propertiesIsSet = false;
-    m_Event_timestamp = 0L;
-    m_Request_type = U("");
-    m_Send_timestamp = 0L;
     m_Timeout = 0;
     m_TimeoutIsSet = false;
     m_Timeout_mode = U("");
     m_Timeout_modeIsSet = false;
     m_Transaction_id = U("");
     m_Transaction_idIsSet = false;
-    m_User_id = U("");
-    m_User_idIsSet = false;
     m_Category = U("");
 }
 
@@ -49,19 +41,8 @@ void DataCollectorBeginTransactionRequest::validate()
 
 web::json::value DataCollectorBeginTransactionRequest::toJson() const
 {
-    web::json::value val = web::json::value::object();
+    web::json::value val = this->DataCollectorBaseRequest::toJson();
 
-    if(m_Device_idIsSet)
-    {
-        val[U("device_id")] = ModelBase::toJson(m_Device_id);
-    }
-    if(m_Event_propertiesIsSet)
-    {
-        val[U("event_properties")] = ModelBase::toJson(m_Event_properties);
-    }
-    val[U("event_timestamp")] = ModelBase::toJson(m_Event_timestamp);
-    val[U("request_type")] = ModelBase::toJson(m_Request_type);
-    val[U("send_timestamp")] = ModelBase::toJson(m_Send_timestamp);
     if(m_TimeoutIsSet)
     {
         val[U("timeout")] = ModelBase::toJson(m_Timeout);
@@ -74,10 +55,6 @@ web::json::value DataCollectorBeginTransactionRequest::toJson() const
     {
         val[U("transaction_id")] = ModelBase::toJson(m_Transaction_id);
     }
-    if(m_User_idIsSet)
-    {
-        val[U("user_id")] = ModelBase::toJson(m_User_id);
-    }
     val[U("category")] = ModelBase::toJson(m_Category);
 
     return val;
@@ -85,22 +62,8 @@ web::json::value DataCollectorBeginTransactionRequest::toJson() const
 
 void DataCollectorBeginTransactionRequest::fromJson(web::json::value& val)
 {
-    if(val.has_field(U("device_id")))
-    {
-        setDeviceId(ModelBase::stringFromJson(val[U("device_id")]));
-    }
-    if(val.has_field(U("event_properties")))
-    {
-        if(!val[U("event_properties")].is_null())
-        {
-            std::shared_ptr<Object> newItem(nullptr);
-            newItem->fromJson(val[U("event_properties")]);
-            setEventProperties( newItem );
-        }
-    }
-    setEventTimestamp(ModelBase::int64_tFromJson(val[U("event_timestamp")]));
-    setRequestType(ModelBase::stringFromJson(val[U("request_type")]));
-    setSendTimestamp(ModelBase::int64_tFromJson(val[U("send_timestamp")]));
+    this->DataCollectorBaseRequest::fromJson(val);
+
     if(val.has_field(U("timeout")))
     {
         setTimeout(ModelBase::int32_tFromJson(val[U("timeout")]));
@@ -112,10 +75,6 @@ void DataCollectorBeginTransactionRequest::fromJson(web::json::value& val)
     if(val.has_field(U("transaction_id")))
     {
         setTransactionId(ModelBase::stringFromJson(val[U("transaction_id")]));
-    }
-    if(val.has_field(U("user_id")))
-    {
-        setUserId(ModelBase::stringFromJson(val[U("user_id")]));
     }
     setCategory(ModelBase::stringFromJson(val[U("category")]));
 }
@@ -144,6 +103,11 @@ void DataCollectorBeginTransactionRequest::toMultipart(std::shared_ptr<Multipart
     multipart->add(ModelBase::toHttpContent(namePrefix + U("event_timestamp"), m_Event_timestamp));
     multipart->add(ModelBase::toHttpContent(namePrefix + U("request_type"), m_Request_type));
     multipart->add(ModelBase::toHttpContent(namePrefix + U("send_timestamp"), m_Send_timestamp));
+    if(m_User_idIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + U("user_id"), m_User_id));
+        
+    }
     if(m_TimeoutIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("timeout"), m_Timeout));
@@ -156,11 +120,6 @@ void DataCollectorBeginTransactionRequest::toMultipart(std::shared_ptr<Multipart
     if(m_Transaction_idIsSet)
     {
         multipart->add(ModelBase::toHttpContent(namePrefix + U("transaction_id"), m_Transaction_id));
-        
-    }
-    if(m_User_idIsSet)
-    {
-        multipart->add(ModelBase::toHttpContent(namePrefix + U("user_id"), m_User_id));
         
     }
     multipart->add(ModelBase::toHttpContent(namePrefix + U("category"), m_Category));
@@ -190,6 +149,10 @@ void DataCollectorBeginTransactionRequest::fromMultiPart(std::shared_ptr<Multipa
     setEventTimestamp(ModelBase::int64_tFromHttpContent(multipart->getContent(U("event_timestamp"))));
     setRequestType(ModelBase::stringFromHttpContent(multipart->getContent(U("request_type"))));
     setSendTimestamp(ModelBase::int64_tFromHttpContent(multipart->getContent(U("send_timestamp"))));
+    if(multipart->hasContent(U("user_id")))
+    {
+        setUserId(ModelBase::stringFromHttpContent(multipart->getContent(U("user_id"))));
+    }
     if(multipart->hasContent(U("timeout")))
     {
         setTimeout(ModelBase::int32_tFromHttpContent(multipart->getContent(U("timeout"))));
@@ -202,88 +165,9 @@ void DataCollectorBeginTransactionRequest::fromMultiPart(std::shared_ptr<Multipa
     {
         setTransactionId(ModelBase::stringFromHttpContent(multipart->getContent(U("transaction_id"))));
     }
-    if(multipart->hasContent(U("user_id")))
-    {
-        setUserId(ModelBase::stringFromHttpContent(multipart->getContent(U("user_id"))));
-    }
     setCategory(ModelBase::stringFromHttpContent(multipart->getContent(U("category"))));
 }
 
-utility::string_t DataCollectorBeginTransactionRequest::getDeviceId() const
-{
-    return m_Device_id;
-}
-
-
-void DataCollectorBeginTransactionRequest::setDeviceId(utility::string_t value)
-{
-    m_Device_id = value;
-    m_Device_idIsSet = true;
-}
-bool DataCollectorBeginTransactionRequest::deviceIdIsSet() const
-{
-    return m_Device_idIsSet;
-}
-
-void DataCollectorBeginTransactionRequest::unsetDevice_id()
-{
-    m_Device_idIsSet = false;
-}
-
-std::shared_ptr<Object> DataCollectorBeginTransactionRequest::getEventProperties() const
-{
-    return m_Event_properties;
-}
-
-
-void DataCollectorBeginTransactionRequest::setEventProperties(std::shared_ptr<Object> value)
-{
-    m_Event_properties = value;
-    m_Event_propertiesIsSet = true;
-}
-bool DataCollectorBeginTransactionRequest::eventPropertiesIsSet() const
-{
-    return m_Event_propertiesIsSet;
-}
-
-void DataCollectorBeginTransactionRequest::unsetEvent_properties()
-{
-    m_Event_propertiesIsSet = false;
-}
-
-int64_t DataCollectorBeginTransactionRequest::getEventTimestamp() const
-{
-    return m_Event_timestamp;
-}
-
-
-void DataCollectorBeginTransactionRequest::setEventTimestamp(int64_t value)
-{
-    m_Event_timestamp = value;
-    
-}
-utility::string_t DataCollectorBeginTransactionRequest::getRequestType() const
-{
-    return m_Request_type;
-}
-
-
-void DataCollectorBeginTransactionRequest::setRequestType(utility::string_t value)
-{
-    m_Request_type = value;
-    
-}
-int64_t DataCollectorBeginTransactionRequest::getSendTimestamp() const
-{
-    return m_Send_timestamp;
-}
-
-
-void DataCollectorBeginTransactionRequest::setSendTimestamp(int64_t value)
-{
-    m_Send_timestamp = value;
-    
-}
 int32_t DataCollectorBeginTransactionRequest::getTimeout() const
 {
     return m_Timeout;
@@ -345,27 +229,6 @@ bool DataCollectorBeginTransactionRequest::transactionIdIsSet() const
 void DataCollectorBeginTransactionRequest::unsetTransaction_id()
 {
     m_Transaction_idIsSet = false;
-}
-
-utility::string_t DataCollectorBeginTransactionRequest::getUserId() const
-{
-    return m_User_id;
-}
-
-
-void DataCollectorBeginTransactionRequest::setUserId(utility::string_t value)
-{
-    m_User_id = value;
-    m_User_idIsSet = true;
-}
-bool DataCollectorBeginTransactionRequest::userIdIsSet() const
-{
-    return m_User_idIsSet;
-}
-
-void DataCollectorBeginTransactionRequest::unsetUser_id()
-{
-    m_User_idIsSet = false;
 }
 
 utility::string_t DataCollectorBeginTransactionRequest::getCategory() const

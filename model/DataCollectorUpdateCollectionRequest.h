@@ -20,9 +20,8 @@
 #define DataCollectorUpdateCollectionRequest_H_
 
 
-#include "ModelBase.h"
-
 #include <cpprest/details/basic_types.h>
+#include "DataCollectorBaseRequest.h"
 #include "Object.h"
 
 namespace io {
@@ -34,7 +33,7 @@ namespace model {
 /// 
 /// </summary>
 class  DataCollectorUpdateCollectionRequest
-    : public ModelBase
+    : public DataCollectorBaseRequest
 {
 public:
     DataCollectorUpdateCollectionRequest();
@@ -70,58 +69,16 @@ public:
     bool getCurrency() const;
         void setCurrency(bool value);
     /// <summary>
-    /// Unique ID of the device triggering the event
-    /// </summary>
-    utility::string_t getDeviceId() const;
-    bool deviceIdIsSet() const;
-    void unsetDevice_id();
-    void setDeviceId(utility::string_t value);
-    /// <summary>
-    /// A key/value list of properties for this event. Values can be numerical, strings or booleans, proper typing matters (quoted vs unquoted)
-    /// </summary>
-    std::shared_ptr<Object> getEventProperties() const;
-    bool eventPropertiesIsSet() const;
-    void unsetEvent_properties();
-    void setEventProperties(std::shared_ptr<Object> value);
-    /// <summary>
-    /// Epoch timestamp &lt;i&gt;in milliseconds&lt;/i&gt; of when event itself occurred
-    /// </summary>
-    int64_t getEventTimestamp() const;
-        void setEventTimestamp(int64_t value);
-    /// <summary>
     /// Name of the unit/collection/currency being updated
     /// </summary>
     utility::string_t getName() const;
         void setName(utility::string_t value);
-    /// <summary>
-    /// Specifies the canonical model name of the request. Ex: DataCollectorNewUserRequest -&gt; newUser, NewEventRequest -&gt; newEvent,e tc
-    /// </summary>
-    utility::string_t getRequestType() const;
-        void setRequestType(utility::string_t value);
-    /// <summary>
-    /// Epoch timestamp &lt;i&gt;in milliseconds&lt;/i&gt; of when event was sent to the API
-    /// </summary>
-    int64_t getSendTimestamp() const;
-        void setSendTimestamp(int64_t value);
-    /// <summary>
-    /// Unique ID of the new device
-    /// </summary>
-    utility::string_t getUserId() const;
-        void setUserId(utility::string_t value);
 
 protected:
     double m_Balance;
         double m_Balance_modification;
         bool m_Currency;
-        utility::string_t m_Device_id;
-    bool m_Device_idIsSet;
-    std::shared_ptr<Object> m_Event_properties;
-    bool m_Event_propertiesIsSet;
-    int64_t m_Event_timestamp;
         utility::string_t m_Name;
-        utility::string_t m_Request_type;
-        int64_t m_Send_timestamp;
-        utility::string_t m_User_id;
     };
 
 }

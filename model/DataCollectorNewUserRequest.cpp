@@ -21,13 +21,6 @@ namespace model {
 
 DataCollectorNewUserRequest::DataCollectorNewUserRequest()
 {
-    m_Device_id = U("");
-    m_Device_idIsSet = false;
-    m_Event_propertiesIsSet = false;
-    m_Event_timestamp = 0L;
-    m_Request_type = U("");
-    m_Send_timestamp = 0L;
-    m_User_id = U("");
 }
 
 DataCollectorNewUserRequest::~DataCollectorNewUserRequest()
@@ -41,43 +34,16 @@ void DataCollectorNewUserRequest::validate()
 
 web::json::value DataCollectorNewUserRequest::toJson() const
 {
-    web::json::value val = web::json::value::object();
+    web::json::value val = this->DataCollectorBaseRequest::toJson();
 
-    if(m_Device_idIsSet)
-    {
-        val[U("device_id")] = ModelBase::toJson(m_Device_id);
-    }
-    if(m_Event_propertiesIsSet)
-    {
-        val[U("event_properties")] = ModelBase::toJson(m_Event_properties);
-    }
-    val[U("event_timestamp")] = ModelBase::toJson(m_Event_timestamp);
-    val[U("request_type")] = ModelBase::toJson(m_Request_type);
-    val[U("send_timestamp")] = ModelBase::toJson(m_Send_timestamp);
-    val[U("user_id")] = ModelBase::toJson(m_User_id);
 
     return val;
 }
 
 void DataCollectorNewUserRequest::fromJson(web::json::value& val)
 {
-    if(val.has_field(U("device_id")))
-    {
-        setDeviceId(ModelBase::stringFromJson(val[U("device_id")]));
-    }
-    if(val.has_field(U("event_properties")))
-    {
-        if(!val[U("event_properties")].is_null())
-        {
-            std::shared_ptr<Object> newItem(nullptr);
-            newItem->fromJson(val[U("event_properties")]);
-            setEventProperties( newItem );
-        }
-    }
-    setEventTimestamp(ModelBase::int64_tFromJson(val[U("event_timestamp")]));
-    setRequestType(ModelBase::stringFromJson(val[U("request_type")]));
-    setSendTimestamp(ModelBase::int64_tFromJson(val[U("send_timestamp")]));
-    setUserId(ModelBase::stringFromJson(val[U("user_id")]));
+    this->DataCollectorBaseRequest::fromJson(val);
+
 }
 
 void DataCollectorNewUserRequest::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -104,7 +70,11 @@ void DataCollectorNewUserRequest::toMultipart(std::shared_ptr<MultipartFormData>
     multipart->add(ModelBase::toHttpContent(namePrefix + U("event_timestamp"), m_Event_timestamp));
     multipart->add(ModelBase::toHttpContent(namePrefix + U("request_type"), m_Request_type));
     multipart->add(ModelBase::toHttpContent(namePrefix + U("send_timestamp"), m_Send_timestamp));
-    multipart->add(ModelBase::toHttpContent(namePrefix + U("user_id"), m_User_id));
+    if(m_User_idIsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + U("user_id"), m_User_id));
+        
+    }
 }
 
 void DataCollectorNewUserRequest::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
@@ -131,95 +101,12 @@ void DataCollectorNewUserRequest::fromMultiPart(std::shared_ptr<MultipartFormDat
     setEventTimestamp(ModelBase::int64_tFromHttpContent(multipart->getContent(U("event_timestamp"))));
     setRequestType(ModelBase::stringFromHttpContent(multipart->getContent(U("request_type"))));
     setSendTimestamp(ModelBase::int64_tFromHttpContent(multipart->getContent(U("send_timestamp"))));
-    setUserId(ModelBase::stringFromHttpContent(multipart->getContent(U("user_id"))));
+    if(multipart->hasContent(U("user_id")))
+    {
+        setUserId(ModelBase::stringFromHttpContent(multipart->getContent(U("user_id"))));
+    }
 }
 
-utility::string_t DataCollectorNewUserRequest::getDeviceId() const
-{
-    return m_Device_id;
-}
-
-
-void DataCollectorNewUserRequest::setDeviceId(utility::string_t value)
-{
-    m_Device_id = value;
-    m_Device_idIsSet = true;
-}
-bool DataCollectorNewUserRequest::deviceIdIsSet() const
-{
-    return m_Device_idIsSet;
-}
-
-void DataCollectorNewUserRequest::unsetDevice_id()
-{
-    m_Device_idIsSet = false;
-}
-
-std::shared_ptr<Object> DataCollectorNewUserRequest::getEventProperties() const
-{
-    return m_Event_properties;
-}
-
-
-void DataCollectorNewUserRequest::setEventProperties(std::shared_ptr<Object> value)
-{
-    m_Event_properties = value;
-    m_Event_propertiesIsSet = true;
-}
-bool DataCollectorNewUserRequest::eventPropertiesIsSet() const
-{
-    return m_Event_propertiesIsSet;
-}
-
-void DataCollectorNewUserRequest::unsetEvent_properties()
-{
-    m_Event_propertiesIsSet = false;
-}
-
-int64_t DataCollectorNewUserRequest::getEventTimestamp() const
-{
-    return m_Event_timestamp;
-}
-
-
-void DataCollectorNewUserRequest::setEventTimestamp(int64_t value)
-{
-    m_Event_timestamp = value;
-    
-}
-utility::string_t DataCollectorNewUserRequest::getRequestType() const
-{
-    return m_Request_type;
-}
-
-
-void DataCollectorNewUserRequest::setRequestType(utility::string_t value)
-{
-    m_Request_type = value;
-    
-}
-int64_t DataCollectorNewUserRequest::getSendTimestamp() const
-{
-    return m_Send_timestamp;
-}
-
-
-void DataCollectorNewUserRequest::setSendTimestamp(int64_t value)
-{
-    m_Send_timestamp = value;
-    
-}
-utility::string_t DataCollectorNewUserRequest::getUserId() const
-{
-    return m_User_id;
-}
-
-
-void DataCollectorNewUserRequest::setUserId(utility::string_t value)
-{
-    m_User_id = value;
-    
-}
 }
 }
 }

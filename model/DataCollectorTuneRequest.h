@@ -20,9 +20,8 @@
 #define DataCollectorTuneRequest_H_
 
 
-#include "ModelBase.h"
-
 #include <cpprest/details/basic_types.h>
+#include "DataCollectorBaseRequest.h"
 #include "Object.h"
 
 namespace io {
@@ -34,7 +33,7 @@ namespace model {
 /// 
 /// </summary>
 class  DataCollectorTuneRequest
-    : public ModelBase
+    : public DataCollectorBaseRequest
 {
 public:
     DataCollectorTuneRequest();
@@ -59,52 +58,10 @@ public:
     /// </summary>
     utility::string_t getCampaignName() const;
         void setCampaignName(utility::string_t value);
-    /// <summary>
-    /// Unique ID of the device
-    /// </summary>
-    utility::string_t getDeviceId() const;
-        void setDeviceId(utility::string_t value);
-    /// <summary>
-    /// A key/value list of properties for this event. Values can be numerical, strings or booleans, proper typing matters (quoted vs unquoted)
-    /// </summary>
-    std::shared_ptr<Object> getEventProperties() const;
-    bool eventPropertiesIsSet() const;
-    void unsetEvent_properties();
-    void setEventProperties(std::shared_ptr<Object> value);
-    /// <summary>
-    /// Epoch timestamp &lt;i&gt;in milliseconds&lt;/i&gt; of when event itself occurred
-    /// </summary>
-    int64_t getEventTimestamp() const;
-        void setEventTimestamp(int64_t value);
-    /// <summary>
-    /// Specifies the canonical model name of the request. Ex: DataCollectorNewUserRequest -&gt; newUser, NewEventRequest -&gt; newEvent,e tc
-    /// </summary>
-    utility::string_t getRequestType() const;
-        void setRequestType(utility::string_t value);
-    /// <summary>
-    /// Epoch timestamp &lt;i&gt;in milliseconds&lt;/i&gt; of when event was sent to the API
-    /// </summary>
-    int64_t getSendTimestamp() const;
-        void setSendTimestamp(int64_t value);
-    /// <summary>
-    /// Unique ID of the user triggering the event
-    /// </summary>
-    utility::string_t getUserId() const;
-    bool userIdIsSet() const;
-    void unsetUser_id();
-    void setUserId(utility::string_t value);
 
 protected:
     utility::string_t m_Campaign_name;
-        utility::string_t m_Device_id;
-        std::shared_ptr<Object> m_Event_properties;
-    bool m_Event_propertiesIsSet;
-    int64_t m_Event_timestamp;
-        utility::string_t m_Request_type;
-        int64_t m_Send_timestamp;
-        utility::string_t m_User_id;
-    bool m_User_idIsSet;
-};
+    };
 
 }
 }
